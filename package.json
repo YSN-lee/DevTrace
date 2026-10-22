@@ -1,0 +1,29 @@
+{
+  "name": "devtrace",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --experimental-strip-types --test test/core.test.ts test/collector.test.ts test/server/*.test.js",
+    "server": "node --env-file-if-exists=.env server/index.js",
+    "server:watch": "node --env-file-if-exists=.env --watch server/index.js",
+    "test:mongodb": "node --env-file-if-exists=.env --experimental-strip-types --test test/mongodb.integration.js"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

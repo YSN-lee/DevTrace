@@ -1,0 +1,38 @@
+
+> devtrace@0.2.0 test
+> node --experimental-strip-types --test test/core.test.ts test/collector.test.ts test/server/*.test.js
+
+✔ collector HTTP contract: sends sanitized payload; acknowledges only the response (fixture, no DB) (35.169765ms)
+✔ failed submission and throwing failure callback never become a capture success or loop (40.774794ms)
+✔ collector backpressure bounds in-flight sends and cleanup suppresses acknowledgements (43.571881ms)
+✔ transport rejects an HTML fallback, API error, insecure remote URL and timeout (7.76133ms)
+✔ same normalized message and location produce the same identity (12.592011ms)
+✔ meaningful numbers and different source locations remain distinct (2.975482ms)
+✔ ten concurrent captures group into one in-memory issue with ten occurrences (4.912833ms)
+✔ distinct errors remain separate, while a matching recurrence retains manual resolved status (1.315249ms)
+✔ URL query, fragment, common credentials, and email are removed (0.424693ms)
+✔ oversized fields are bounded and invalid event kinds are rejected (178.885123ms)
+✔ JSON storage round trip preserves events and status, while malformed records are rejected (2.515026ms)
+✔ retention bounds events and removes status metadata for an expired issue (17.113556ms)
+✔ histogram includes only the selected time window (1.715485ms)
+✔ sample data is explicitly synthetic and matches the documented 76-event six-issue fixture (18.787409ms)
+✔ collector installation replaces old listeners and captures a browser-style error event once (1.465613ms)
+✔ collector handles a non-Error rejection without serializing its object (0.721304ms)
+✔ HTTP rejects invalid, unknown, malformed and oversized JSON before database work (84.581169ms)
+✔ HTTP health and valid ingestion return honest 503 with disconnected MongoDB (17.996506ms)
+✔ HTTP validates issue ids, status, pagination and bounded literal search input (17.971128ms)
+✔ HTTP CORS allowlist, host guard, bearer auth and security headers (18.612263ms)
+✔ HTTP rate limit returns 429 and a retry delay (8.490757ms)
+✔ network binding refuses missing credentials and wildcard/insecure origins (0.584992ms)
+✔ server and collector agree on canonical SHA-256 identity across normalized inputs (14.85741ms)
+✔ server preserves meaningful message numbers and distinguishes source positions (0.784479ms)
+✔ server strips secrets from error content and rejects non-scalar injection (0.676408ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 483.735061
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

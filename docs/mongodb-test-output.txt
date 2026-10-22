@@ -1,0 +1,25 @@
+
+> devtrace@0.2.0 test:mongodb
+> node --env-file-if-exists=.env --experimental-strip-types --test test/mongodb.integration.js
+
+.env not found. Continuing without it.
+✖ real MongoDB integration — no mock database (3016.38869ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3320.700758
+
+✖ failing tests:
+
+test at test/mongodb.integration.js:13:1
+✖ real MongoDB integration — no mock database (3016.38869ms)
+  Error: BLOCKED: MongoDB connection/index initialization failed before persistence assertions. Check TEST_MONGODB_URI and the running database.
+      at TestContext.<anonymous> (file:///workspace/sites/devtrace-lab-20261019/test/mongodb.integration.js:19:17)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+.env not found. Continuing without it.
