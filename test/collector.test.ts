@@ -33,12 +33,41 @@ test('collector HTTP contract: sends sanitized payload; acknowledges only the re
   assert.ok(Number.isSafeInteger(submitted.clientTimestamp)); assert.match(submitted.eventId, /^[a-f0-9-]{36}$/);
   assert.equal(authorization, 'Bearer fixture-token'); assert.equal(acknowledged.timestamp, 123);
 });
+
 test('failed submission and throwing failure callback never become a capture success or loop', { timeout: 5000 }, async t => {
-  const target = errorTarget(); let sends = 0, captures = 0, failures = 0;
-  const cleanup = installCollector({ send: async () => { sends++; throw new Error('API offline'); }, onCapture: () => { captures++; }, onFailure: () => { failures++; throw new Error('UI callback failed'); } });
-  t.after(cleanup); emit(target); await new Promise(resolve => setTimeout(resolve, 40));
-  assert.equal(sends, 1); assert.equal(captures, 0); assert.equal(failures, 1);
+  const target = errorTarget();
+  let sends = 0, captures = 0, failures = 0;
+
+  let notifyFailure!: () => void;
+  const failureReported = new Promise<void>(resolve => {
+    notifyFailure = resolve;
+  });
+
+  const cleanup = installCollector({
+    send: async () => {
+      sends++;
+      throw new Error('API offline');
+    },
+    onCapture: () => {
+      captures++;
+    },
+    onFailure: () => {
+      failures++;
+      notifyFailure();
+      throw new Error('UI callback failed');
+    }
+  });
+
+  t.after(cleanup);
+  emit(target);
+
+  await failureReported;
+
+  assert.equal(sends, 1);
+  assert.equal(captures, 0);
+  assert.equal(failures, 1);
 });
+
 test('collector backpressure bounds in-flight sends and cleanup suppresses acknowledgements', { timeout: 5000 }, async t => {
   const target = errorTarget(); let sends = 0, captures = 0; const pending: Array<() => void> = [];
   const cleanup = installCollector({ send: event => { sends++; return new Promise(resolve => pending.push(() => resolve(event))); }, onCapture: () => { captures++; }, onFailure: () => {} });
